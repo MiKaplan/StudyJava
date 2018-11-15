@@ -2,13 +2,12 @@ package shape;
 
 public class Square extends Shape {
     private Point a;
+    private Point b;
 
 
-    public Square(Point a) {
+    public Square(Point a, Point b) {
         this.a = a;
-    }
-    public Square(){
-        super();
+        this.b = b;
     }
 
     public Point getA() {
@@ -19,15 +18,22 @@ public class Square extends Shape {
         this.a = a;
     }
 
+    public Point getB() {
+        return b;
+    }
+
+    public void setB(Point b) {
+        this.b = b;
+    }
 
     @Override
     double getPerimetr() {
-        double perimetr = 4*(Math.sqrt(Math.pow((a.getX1()-a.getX2()), 2) + Math.pow((a.getY1()-a.getY2()), 2)));
+        double perimetr = 4*(Math.sqrt(Math.pow((a.getX()-b.getX()), 2) + Math.pow((a.getY() - b.getY()), 2)));
         return perimetr;
     }
     @Override
     double getArea(){
-        double area = Math.pow((Math.sqrt(Math.pow((a.getX1()-a.getX2()), 2) + Math.pow((a.getY1()-a.getY2()), 2))), 2);
+        double area = Math.pow((Math.sqrt(Math.pow((a.getX()-b.getX()), 2) + Math.pow((a.getY()-b.getY()), 2))), 2);
         return area;
     }
 
