@@ -1,9 +1,7 @@
 package group;
 
 import group.exceptions.AddStudentException;
-import group.exceptions.DeleteStudentException;
 
-import java.util.Arrays;
 
 public class Group {
     Student student[] = new Student[10];
@@ -24,57 +22,87 @@ public class Group {
         this.student = student;
     }
 
-    public void add(Student addStudent) {
+    public void add(Student addStudent) throws AddStudentException{
+        if (addStudent == null) {
+            throw new IllegalArgumentException("Null student");
+        }
         for (int i = 0; i < student.length; i++) {
-            try {
+
                 if (student[i] == null) {
                     student[i] = addStudent;
                     System.out.println("You are add new student: " + addStudent.toString());
-                    break;
+                   return;
                 }
-                if (i == student.length - 1) {
-                    throw new AddStudentException();
-                }
-            } catch (AddStudentException e){
-                System.out.println(e.getMassage());
             }
+        throw new AddStudentException();
         }
-    }
-    public void delete(Student delStudent){
-        for (int i = 0; i <student.length ; i++) {
-            try {
-                if (student[i].equals(delStudent)){
-                    student[i] = null;
-                }
-            if (student[i] == null) {
-                throw new DeleteStudentException();
-            }
-            } catch (DeleteStudentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-    public Student findStudent(String surname) {
 
-        Student st = null;
+    public void deleteStudent(String surname)  {
+        if (surname == null) {
+            throw new IllegalArgumentException("You didn't choose the student");
+        }
         for (int i = 0; i < student.length; i++) {
-
-            if (student[i].getSurname().equals(surname)) {
-                st = student[i];
-                break;
-            } else {
-                System.out.println("This student is missing.");
+            if (student[i] != null && student[i].getSurname() == surname) {
+                student[i] = null;
+                System.out.println("You are delete " + surname);
             }
-
-
         }
-        return st;
+    }
+
+//public boolean deleteStudent(String surname) {
+//    for (int i = 0; i < student.length; i++) {
+//        if (student[i] != null && student[i].getSurname() == surname) {
+//            student[i] = null;
+//            return true;
+//        }
+//    }
+//    return false;
+//    }
+    public Student findStudent(String surname) {
+        for (Student st : student) {
+            if (st != null && st.getSurname().compareToIgnoreCase(surname) == 0){
+                System.out.println("Your student is find: ");
+                return st;
+            }
+        }
+        return null;
+    }
+    private void sort(){
+        for (int i = 0; i < student.length-1 ; i++) {
+            for (int j = i+1; j < student.length; j++) {
+                if (compareStudent(student[i], student[j]) > 0){
+                    Student temp = student [i];
+                    student [i] = student [j];
+                    student [j] = temp;
+                }
+            }
+        }
+    }
+    private int compareStudent(Student a, Student b) {
+        if (a != null && b == null) {
+            return 1;
+        }
+        if (a == null && b != null) {
+            return -1;
+        }
+        if (a == null && b == null) {
+            return 0;
+        }
+        return a.getSurname().compareTo(b.getSurname());
     }
 
     @Override
     public String toString() {
-        return "Group{" +
-                "student=" + Arrays.toString(student) +
-                '}';
+        StringBuilder builder = new StringBuilder();
+//        sb.append("Group: " + "\n" + student).append(System.lineSeparator());
+        int i = 0;
+        sort();
+        for (Student st : student) {
+            if (st != null){
+                builder.append(System.lineSeparator()).append(++i + ") ").append(st);
+                builder.append(System.lineSeparator());
+            }
+        }
+       return builder.toString();
     }
 }

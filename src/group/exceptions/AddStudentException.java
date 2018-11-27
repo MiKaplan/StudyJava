@@ -1,8 +1,8 @@
 package group.exceptions;
 
 public class AddStudentException extends Exception {
-
-    public String getMassage(){
+    @Override
+    public String getMessage(){
         return "Your group is full";
     }
 }

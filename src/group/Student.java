@@ -1,6 +1,5 @@
 package group;
 
-import java.util.Arrays;
 
 public class Student extends Human {
 private boolean contract;
@@ -27,8 +26,7 @@ private boolean contract;
 
     @Override
     public String toString() {
-        return  super.toString() + " " + "Student{" +
-                "contract=" + contract +
-                '}';
+        return  super.toString() + " " +
+                "contract=" + contract;
     }
 }
